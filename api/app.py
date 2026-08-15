@@ -10,6 +10,7 @@ Endpoints:
 from flask import Flask, jsonify, request
 
 from model_utils import FEATURE_COLUMNS, predict_crop
+from simulator_page import SIMULATOR_HTML
 
 app = Flask(__name__)
 
@@ -29,6 +30,12 @@ assert [name for name, _ in USSD_QUESTIONS] == FEATURE_COLUMNS
 @app.get("/health")
 def health():
     return jsonify({"status": "ok"})
+
+
+@app.get("/simulator")
+def simulator():
+    """Phone-style web UI that calls /ussd like a real USSD gateway would."""
+    return SIMULATOR_HTML
 
 
 @app.post("/predict")
@@ -86,5 +93,5 @@ def ussd():
 
 
 if __name__ == "__main__":
-    # Port 5000 collides with macOS's AirPlay Receiver; 5001 avoids that.
+   
     app.run(debug=True, port=5001)
