@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSmart | Crop Recommendation</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}?v=30"
+    >
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="shell header-inner">
+
+        <a class="brand" href="#top">
+            <span class="brand-mark">A</span>
+            <span>Agri<span>Smart</span></span>
+        </a>
+
+        <nav class="top-nav">
+            <a class="active" href="#recommend">Home</a>
+            <a href="#recommend">Recommendation</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main id="top">
+
+    <section class="hero">
+        <div class="shell hero-inner">
+
+            <div class="hero-copy">
+                <p class="eyebrow">
+                    CROP RECOMMENDATION SYSTEM
+                </p>
+
+                <h1>
+                    Find a suitable crop for your
+                    <span>soil and environmental conditions</span>
+                </h1>
+
+                <p>
+                    Enter your soil nutrients and environmental
+                    conditions. The trained Random Forest model
+                    will recommend a crop and explain which inputs
+                    had the strongest influence on that prediction.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="shell workspace" id="recommend">
+
+        <!-- INPUT CARD -->
+        <section class="app-card input-card">
+
+            <div class="card-title-row">
+                <div>
+                    <h2>Enter Your Values</h2>
+                    <p>All seven fields are required.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="outline-action"
+                    id="sample-btn"
+                >
+                    Use Sample
+                </button>
+            </div>
+
+
+            <form id="crop-form" novalidate>
+
+                <div class="form-section">
+
+                    <div class="section-label">
+                        <span>SOIL NUTRIENTS</span>
+                        <span class="rule"></span>
+                    </div>
+
+                    <div class="form-grid three-col">
+
+                        <label class="field">
+                            <span class="field-name">Nitrogen (N)</span>
+                            <span class="range">Allowed range: 0 to 140</span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="N"
+                                    name="N"
+                                    type="number"
+                                    min="0"
+                                    max="140"
+                                    step="1"
+                                    placeholder="90"
+                                    required
+                                >
+                                <span>N</span>
+                            </div>
+                        </label>
+
+
+                        <label class="field">
+                            <span class="field-name">Phosphorus (P)</span>
+                            <span class="range">Allowed range: 5 to 145</span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="P"
+                                    name="P"
+                                    type="number"
+                                    min="5"
+                                    max="145"
+                                    step="1"
+                                    placeholder="42"
+                                    required
+                                >
+                                <span>P</span>
+                            </div>
+                        </label>
+
+
+                        <label class="field">
+                            <span class="field-name">Potassium (K)</span>
+                            <span class="range">Allowed range: 5 to 205</span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="K"
+                                    name="K"
+                                    type="number"
+                                    min="5"
+                                    max="205"
+                                    step="1"
+                                    placeholder="43"
+                                    required
+                                >
+                                <span>K</span>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+
+                <div class="form-section">
+
+                    <div class="section-label">
+                        <span>ENVIRONMENTAL CONDITIONS</span>
+                        <span class="rule"></span>
+                    </div>
+
+                    <div class="form-grid two-col">
+
+                        <label class="field">
+                            <span class="field-name">Temperature</span>
+                            <span class="range">
+                                Allowed range: 8.83 to 43.67 C
+                            </span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="temperature"
+                                    name="temperature"
+                                    type="number"
+                                    min="8.826"
+                                    max="43.675"
+                                    step="0.01"
+                                    placeholder="20.88"
+                                    required
+                                >
+                                <span>C</span>
+                            </div>
+                        </label>
+
+
+                        <label class="field">
+                            <span class="field-name">Humidity</span>
+                            <span class="range">
+                                Allowed range: 14.26 to 99.98 percent
+                            </span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="humidity"
+                                    name="humidity"
+                                    type="number"
+                                    min="14.258"
+                                    max="99.982"
+                                    step="0.01"
+                                    placeholder="82.00"
+                                    required
+                                >
+                                <span>%</span>
+                            </div>
+                        </label>
+
+
+                        <label class="field">
+                            <span class="field-name">Soil pH</span>
+                            <span class="range">
+                                Allowed range: 3.51 to 9.94
+                            </span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="ph"
+                                    name="ph"
+                                    type="number"
+                                    min="3.505"
+                                    max="9.935"
+                                    step="0.01"
+                                    placeholder="6.50"
+                                    required
+                                >
+                                <span>pH</span>
+                            </div>
+                        </label>
+
+
+                        <label class="field">
+                            <span class="field-name">Rainfall</span>
+                            <span class="range">
+                                Allowed range: 20.21 to 298.56 mm
+                            </span>
+
+                            <div class="input-shell">
+                                <input
+                                    id="rainfall"
+                                    name="rainfall"
+                                    type="number"
+                                    min="20.211"
+                                    max="298.560"
+                                    step="0.01"
+                                    placeholder="202.94"
+                                    required
+                                >
+                                <span>mm</span>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+
+                <div id="error-box" class="error-box"></div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="reset"
+                        class="secondary-button"
+                    >
+                        Clear All
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        id="submit-btn"
+                    >
+                        <span>Get Recommendation</span>
+                        <span class="spinner" aria-hidden="true"></span>
+                    </button>
+
+                </div>
+
+
+                <p class="privacy-note">
+                    Your entries are used only to generate
+                    the recommendation and are not stored
+                    by this prototype.
+                </p>
+
+            </form>
+        </section>
+
+
+        <!-- RESULT CARD -->
+        <aside class="app-card result-card" id="result-panel">
+
+            <div class="card-title-row result-heading">
+                <div>
+                    <h2>Recommendation</h2>
+                    <p>
+                        Prediction from the trained Random Forest model.
+                    </p>
+                </div>
+
+                <span class="status-pill" id="result-status">
+                    Ready
+                </span>
+            </div>
+
+
+            <!-- BEFORE PREDICTION -->
+            <div id="result-empty" class="result-empty">
+
+                <div class="empty-icon">AI</div>
+
+                <h3>
+                    Your recommendation will appear here
+                </h3>
+
+                <p>
+                    Complete all seven fields and select
+                    Get Recommendation.
+                </p>
+            </div>
+
+
+            <!-- AFTER PREDICTION -->
+            <div id="result-success" class="result-success" hidden>
+
+                <!-- MAIN CROP -->
+                <section class="recommendation-banner">
+
+                    <div class="crop-photo-wrap">
+                        <img
+                            id="crop-photo"
+                            class="crop-photo"
+                            src=""
+                            alt="Recommended crop"
+                        >
+
+                        <div
+                            id="crop-photo-fallback"
+                            class="crop-photo-fallback"
+                        >
+                            Crop image
+                        </div>
+                    </div>
+
+
+                    <div class="crop-summary">
+                        <span class="small-label">
+                            RECOMMENDED CROP
+                        </span>
+
+                        <h3 id="crop-name">Rice</h3>
+
+                        <p>
+                            Strongest crop prediction from the
+                            trained Random Forest model.
+                        </p>
+                    </div>
+
+                </section>
+
+
+                <!-- SHAP EXPLANATION -->
+                <section class="result-section">
+
+                    <h4 id="explanation-title">
+                        What Influenced This Prediction?
+                    </h4>
+
+                    <p class="section-description">
+                        The model considered all seven inputs.
+                        These are the three values that contributed
+                        most strongly toward this particular crop prediction.
+                    </p>
+
+                    <div
+                        id="model-explanation"
+                        class="explanation-list"
+                    ></div>
+
+
+                    <div class="explanation-help">
+                        <strong>How to read this</strong>
+                        <p>
+                            These factors explain the model's decision for
+                            this specific input. They do not mean that one
+                            factor alone guarantees that the crop will grow
+                            successfully.
+                        </p>
+                    </div>
+
+                </section>
+
+
+                <!-- TOP THREE -->
+                <section class="result-section">
+
+                    <h4>Top 3 Model Predictions</h4>
+
+                    <p class="section-description">
+                        Random Forest produces a probability for each crop
+                        class. These are the three crops with the highest
+                        model probabilities for the values you entered.
+                    </p>
+
+                    <div
+                        id="top-predictions"
+                        class="top-three-list"
+                    ></div>
+
+                    <p class="probability-note">
+                        Model probability describes the model's output for
+                        this input. It is not the same as the model's overall
+                        test accuracy and is not a guarantee of crop success.
+                    </p>
+
+                </section>
+
+
+                <button
+                    id="reset-btn"
+                    class="try-again"
+                    type="button"
+                >
+                    Try Another Prediction
+                </button>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+    <div class="shell footer-inner">
+        <strong>AgriSmart Crop Recommendation System</strong>
+        <span>Powered by Gina.Phoebe.Nene.David</span>
+    </div>
+</footer>
+
+
+<script
+    src="{{ url_for('static', filename='app.js') }}?v=30"
+></script>
+
+</body>
+</html>

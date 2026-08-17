@@ -1,8 +1,10 @@
 pandas
 numpy
+scikit-learn==1.8.0
 matplotlib
 seaborn
-scikit-learn
-ipykernel
-flask
 joblib
+flask
+flask-cors
+jupyter
+shap
